@@ -1,0 +1,154 @@
+var spawn = require( "child_process" ).spawn;
+
+function Repo( path ) {
+	this.path = path;
+}
+
+Repo.prototype.exec = function() {
+	var args = [].slice.call( arguments );
+	var callback = args.pop();
+	var stdout = "";
+	var stderr = "";
+	var child = spawn( "git", args, { cwd: this.path } );
+	child.stdout.on( "data", function( data ) {
+		stdout += data;
+	});
+	child.stderr.on( "data", function( data ) {
+		stderr += data;
+	});
+	child.on( "exit", function( code ) {
+		var error;
+		if ( code ) {
+			error = new Error( stderr );
+			error.code = code;
+			return callback( error );
+		}
+
+		callback( null, stdout.trimRight() );
+	});
+};
+
+Repo.prototype.activeDays = function( committish, callback ) {
+	if ( !callback ) {
+		callback = committish;
+		committish = "master";
+	}
+
+	this.exec( "log", "--format=%at", committish, function( error, dates ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var dateMap = {
+			activeDays: 0,
+			commits: 0,
+			dates: {},
+			years: {}
+		};
+
+		dates.split( "\n" ).sort().forEach(function( timestamp ) {
+			var date = new Date( timestamp * 1000 );
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
+
+			date = year + "-" +
+				(month < 10 ? "0" : "") + month + "-" +
+				(day < 10 ? "0" : "") + day;
+
+			if ( !dateMap.dates[ date ] ) {
+				dateMap.dates[ date ] = 0;
+			}
+			dateMap.commits++;
+			dateMap.dates[ date ]++;
+
+			if ( !dateMap.years[ year ] ) {
+				dateMap.years[ year ] = {
+					activeDays: 0,
+					commits: 0,
+					months: {}
+				};
+			}
+			dateMap.years[ year ].commits++;
+
+			if ( !dateMap.years[ year ].months[ month ] ) {
+				dateMap.years[ year ].months[ month ] = {
+					activeDays: 0,
+					commits: 0,
+					days: {}
+				};
+			}
+			dateMap.years[ year ].months[ month ].commits++;
+
+			if ( !dateMap.years[ year ].months[ month ].days[ day ] ) {
+				dateMap.years[ year ].months[ month ].days[ day ] = {
+					commits: 0
+				};
+				dateMap.activeDays++;
+				dateMap.years[ year ].activeDays++;
+				dateMap.years[ year ].months[ month ].activeDays++;
+			}
+			dateMap.years[ year ].months[ month ].days[ day ].commits++;
+		});
+
+		callback( null, dateMap );
+	});
+};
+
+Repo.prototype.age = function( callback ) {
+	this.exec( "log", "--reverse", "--format=%cr", function( error, stdout ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		callback( null, stdout.split( "\n" )[ 0 ].replace( /\sago/, "" ) );
+	});
+};
+
+Repo.prototype.authors = function( committish, callback ) {
+	if ( !callback ) {
+		callback = committish;
+		committish = "master";
+	}
+
+	this.exec( "log", "--format=%aE %aN", committish, function( error, data ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var rAuthor = /^(\S+)\s(.+)$/;
+		var authors = data.split( "\n" );
+		var authorMap = {};
+		var totalCommits = 0;
+
+		authors.forEach(function( author ) {
+			if ( !authorMap[ author ] ) {
+				authorMap[ author ] = 0;
+			}
+
+			authorMap[ author ]++;
+			totalCommits++;
+		});
+
+		authors = Object.keys( authorMap ).map(function( author ) {
+			var email, name;
+			var commits = authorMap[ author ];
+			var matches = rAuthor.exec( author );
+			email = matches[ 1 ];
+			name = matches[ 2 ];
+
+			return {
+				email: email,
+				name: name,
+				commits: commits,
+				commitsPercent: (commits * 100 / totalCommits).toFixed( 1 )
+			};
+		}).sort(function( a, b ) {
+			return b.commits - a.commits;
+		});
+
+		callback( null, authors );
+	});
+};
+
+module.exports = Repo;

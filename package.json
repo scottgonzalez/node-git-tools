@@ -1,0 +1,20 @@
+{
+  "name": "git-tools",
+  "version": "0.0.0",
+  "description": "Tools for parsing data out of git repositories.",
+  "keywords": [
+    "git"
+  ],
+  "homepage": "https://github.com/scottgonzalez/node-git-tools",
+  "bugs": "https://github.com/scottgonzalez/node-git-tools/issues",
+  "author": {
+    "name": "Scott González",
+    "email": "scott.gonzalez@gmail.com",
+    "url": "http://scottgonzalez.com"
+  },
+  "main": "git-tools.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scottgonzalez/node-git-tools.git"
+  }
+}
