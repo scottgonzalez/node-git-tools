@@ -12,7 +12,7 @@ npm install git-tools
 
 ```js
 var Repo = require( "git-tools" );
-var repo = new Repo( "path-to-repo" );
+var repo = new Repo( "path/to/repo" );
 repo.authors(function( error, authors ) {
 	console.log( authors );
 });
@@ -92,7 +92,7 @@ Each author object contains the following properties:
 
 
 
-## tags( callback )
+### tags( callback )
 
 Gets all tags in reverse chronological order.
 
