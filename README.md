@@ -92,6 +92,22 @@ Each author object contains the following properties:
 
 
 
+## tags( callback )
+
+Gets all tags in reverse chronological order.
+
+Lightweight tags are sorted by author date and annotated tags are sorted by tagger date.
+
+* `callback` (Function; `function( error, tags )`): Function ot invoke after getting tags.
+  * `tags` (Array): All tags, sorted by date.
+
+Each tag object contains the following properties:
+
+* `name` (String): Tag name.
+* `date` (Date): Author date for ligthweight tags, tagger date for annotated tags.
+
+
+
 ## License
 
 Copyright 2013 Scott González. Released under the terms of the MIT license.
