@@ -2,6 +2,15 @@
 
 Tools for parsing data out of git repositories.
 
+## About
+
+The goal of node-git-tools is to provide a set of tools that can be used to
+easily write custom git commands or other scripts that are tightly integrated
+with git.
+
+I expect the API to grow over time and will happily entertain any feature
+requests. If there is anything you'd like added, just file an issue.
+
 ## Installation
 
 ```sh
