@@ -162,6 +162,40 @@ Repo.prototype.authors = function( committish, callback ) {
 	});
 };
 
+Repo.prototype.branches = function( callback ) {
+	this.exec( "for-each-ref",
+		"--format=" +
+			"%(refname:short)%0a" +
+			"%(authordate:rfc2822)%0a" +
+			"%(authoremail) %(authorname)%0a" +
+			"%(subject)%0a",
+		"refs/heads",
+	function( error, data ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var branches = data.split( "\n\n" ).map(function( branch ) {
+			var lines = branch.split( "\n" );
+			var name = lines[ 0 ];
+			var date = new Date( lines[ 1 ] );
+			var author = Repo.parsePerson( lines[ 2 ] );
+			var subject = lines[ 3 ];
+
+			return {
+				name: name,
+				date: date,
+				subject: subject,
+				author: author
+			};
+		}).sort(function( a, b ) {
+			return b.date - a.date;
+		});
+
+		callback( null, branches );
+	});
+};
+
 Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +

@@ -101,6 +101,24 @@ Each author object contains the following properties:
 
 
 
+### branches( callback )
+
+Gets all branches in order of most recent commit.
+
+* `callback` (Function; `function( error, branches )`): Function to invoke after getting branches.
+  * `branches` (Array): All branches, sorted by most recent commit date.
+
+Each branch object contains the following properties:
+
+* `name` (String): Branch name.
+* `date` (Date): Author date of most recent commit.
+* `subect` (String): Subject (first line) of most recent commit.
+* `author` (Object): Author of most recent commit.
+  * `email` (String): Author's email address.
+  * `name` (String): Author's name.
+
+
+
 ### tags( callback )
 
 Gets all tags in reverse chronological order.
