@@ -164,18 +164,19 @@ Repo.prototype.authors = function( committish, callback ) {
 
 Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
-			"--format='%(refname:short) %(authordate)%(taggerdate)'", "refs/tags",
-			function( error, data ) {
+		"--format=" +
+			"%(refname:short)%0a" +
+			"%(authordate)%(taggerdate)%0a",
+		"refs/tags",
+	function( error, data ) {
 		if ( error ) {
 			return callback( error );
 		}
 
-		var rTagDate = /^(\S+)\s(.+)$/;
-		var tags = data.split( "\n" ).map(function( tag ) {
-			var name, date;
-			var matches = rTagDate.exec( tag );
-			name = matches[ 1 ];
-			date = new Date( matches [ 2 ] );
+		var tags = data.split( "\n\n" ).map(function( tag ) {
+			var lines = tag.split( "\n" );
+			var name = lines[ 0 ];
+			var date = new Date( lines[ 1 ] );
 
 			return {
 				name: name,
