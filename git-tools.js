@@ -1,8 +1,27 @@
 var spawn = require( "child_process" ).spawn;
 
+function extend( a, b ) {
+	for ( var prop in b ) {
+		a[ prop ] = b[ prop ];
+	}
+
+	return a;
+}
+
 function Repo( path ) {
 	this.path = path;
 }
+
+Repo.parsePerson = (function() {
+	var rPerson = /^(\S+)\s(.+)$/;
+	return function( person ) {
+		var matches = rPerson.exec( person );
+		return {
+			email: matches[ 1 ],
+			name: matches[ 2 ]
+		};
+	};
+})();
 
 Repo.prototype.exec = function() {
 	var args = [].slice.call( arguments );
@@ -116,7 +135,6 @@ Repo.prototype.authors = function( committish, callback ) {
 			return callback( error );
 		}
 
-		var rAuthor = /^(\S+)\s(.+)$/;
 		var authors = data.split( "\n" );
 		var authorMap = {};
 		var totalCommits = 0;
@@ -131,18 +149,11 @@ Repo.prototype.authors = function( committish, callback ) {
 		});
 
 		authors = Object.keys( authorMap ).map(function( author ) {
-			var email, name;
 			var commits = authorMap[ author ];
-			var matches = rAuthor.exec( author );
-			email = matches[ 1 ];
-			name = matches[ 2 ];
-
-			return {
-				email: email,
-				name: name,
+			return extend( Repo.parsePerson( author ), {
 				commits: commits,
 				commitsPercent: (commits * 100 / totalCommits).toFixed( 1 )
-			};
+			});
 		}).sort(function( a, b ) {
 			return b.commits - a.commits;
 		});
