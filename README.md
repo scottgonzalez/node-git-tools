@@ -125,7 +125,7 @@ Gets all tags in reverse chronological order.
 
 Lightweight tags are sorted by author date and annotated tags are sorted by tagger date.
 
-* `callback` (Function; `function( error, tags )`): Function ot invoke after getting tags.
+* `callback` (Function; `function( error, tags )`): Function to invoke after getting tags.
   * `tags` (Array): All tags, sorted by date.
 
 Each tag object contains the following properties:
