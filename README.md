@@ -119,6 +119,15 @@ Each branch object contains the following properties:
 
 
 
+### currentBranch( callback )
+
+Gets the name of the currently checked out branch, if any.
+
+* `callback` (Function; `function( error, branch )`): Function to invoke after getting the branch.
+  * `branch` (String|null): Branch name, or `null` if in detached HEAD state.
+
+
+
 ### tags( callback )
 
 Gets all tags in reverse chronological order.

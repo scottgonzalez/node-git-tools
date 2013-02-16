@@ -196,6 +196,17 @@ Repo.prototype.branches = function( callback ) {
 	});
 };
 
+Repo.prototype.currentBranch = function( callback ) {
+	this.exec( "rev-parse", "--abbrev-ref", "HEAD", function( error, data ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var branch = data === "HEAD" ? null : data;
+		callback( null, branch );
+	});
+};
+
 Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +
