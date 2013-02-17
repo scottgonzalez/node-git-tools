@@ -219,6 +219,12 @@ Repo.prototype.remotes = function( callback ) {
 
 		remotes.forEach(function( remote ) {
 			var matches = rRemote.exec( remote );
+
+			// New repositories with no remotes will have `origin` but no URL
+			if ( !matches ) {
+				return;
+			}
+
 			var name = matches[ 1 ];
 			var url = matches[ 2 ];
 
