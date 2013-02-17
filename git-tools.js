@@ -207,6 +207,35 @@ Repo.prototype.currentBranch = function( callback ) {
 	});
 };
 
+Repo.prototype.remotes = function( callback ) {
+	this.exec( "remote", "-v", function( error, data ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var remotes = data.split( "\n" );
+		var rRemote = /^(\S+)\s(\S+)/;
+		var remoteMap = {};
+
+		remotes.forEach(function( remote ) {
+			var matches = rRemote.exec( remote );
+			var name = matches[ 1 ];
+			var url = matches[ 2 ];
+
+			remoteMap[ name ] = url;
+		});
+
+		remotes = Object.keys( remoteMap ).map(function( remote ) {
+			return {
+				name: remote,
+				url: remoteMap[ remote ]
+			};
+		});
+
+		callback( null, remotes );
+	});
+};
+
 Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +

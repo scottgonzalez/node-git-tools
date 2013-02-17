@@ -128,6 +128,20 @@ Gets the name of the currently checked out branch, if any.
 
 
 
+### remotes ( callback )
+
+Gets all remote repositories.
+
+* `callback` (Function; `function( error, remotes )`): Function to invoke after getting the remotes.
+  * `remotes` (Array): All remote repositories.
+
+Each remote object contains the following properties:
+
+* `name` (String): Remote name.
+* `url` (String): URL for the remote repository.
+
+
+
 ### tags( callback )
 
 Gets all tags in reverse chronological order.
