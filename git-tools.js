@@ -249,7 +249,8 @@ Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +
 			"%(refname:short)%0a" +
-			"%(authordate)%(taggerdate)%0a",
+			"%(authordate)%(taggerdate)%0a" +
+			"%(objectname)%0a",
 		"refs/tags",
 	function( error, data ) {
 		if ( error ) {
@@ -260,9 +261,11 @@ Repo.prototype.tags = function( callback ) {
 			var lines = tag.split( "\n" );
 			var name = lines[ 0 ];
 			var date = new Date( lines[ 1 ] );
+			var sha = lines[ 2 ];
 
 			return {
 				name: name,
+				sha: sha,
 				date: date
 			};
 		}).sort(function( a, b ) {

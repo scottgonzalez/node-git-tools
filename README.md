@@ -155,6 +155,7 @@ Lightweight tags are sorted by author date and annotated tags are sorted by tagg
 Each tag object contains the following properties:
 
 * `name` (String): Tag name.
+* `sha` (String): SHA-1 for the tag. For lightweight tags, this is the SHA-1 of the commit.
 * `date` (Date): Author date for ligthweight tags, tagger date for annotated tags.
 
 
