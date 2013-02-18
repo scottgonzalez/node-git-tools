@@ -112,7 +112,7 @@ Each branch object contains the following properties:
 
 * `name` (String): Branch name.
 * `date` (Date): Author date of most recent commit.
-* `subect` (String): Subject (first line) of most recent commit.
+* `subject` (String): Subject (first line) of most recent commit.
 * `author` (Object): Author of most recent commit.
   * `email` (String): Author's email address.
   * `name` (String): Author's name.
