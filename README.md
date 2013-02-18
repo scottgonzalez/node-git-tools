@@ -111,6 +111,7 @@ Gets all branches in order of most recent commit.
 Each branch object contains the following properties:
 
 * `name` (String): Branch name.
+* `sha` (String): SHA-1 of most recent commit.
 * `date` (Date): Author date of most recent commit.
 * `subject` (String): Subject (first line) of most recent commit.
 * `author` (Object): Author of most recent commit.

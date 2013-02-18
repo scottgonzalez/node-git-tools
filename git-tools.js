@@ -168,7 +168,8 @@ Repo.prototype.branches = function( callback ) {
 			"%(refname:short)%0a" +
 			"%(authordate:rfc2822)%0a" +
 			"%(authoremail) %(authorname)%0a" +
-			"%(subject)%0a",
+			"%(subject)%0a" +
+			"%(objectname)%0a",
 		"refs/heads",
 	function( error, data ) {
 		if ( error ) {
@@ -181,9 +182,11 @@ Repo.prototype.branches = function( callback ) {
 			var date = new Date( lines[ 1 ] );
 			var author = Repo.parsePerson( lines[ 2 ] );
 			var subject = lines[ 3 ];
+			var sha = lines[ 4 ];
 
 			return {
 				name: name,
+				sha: sha,
 				date: date,
 				subject: subject,
 				author: author
