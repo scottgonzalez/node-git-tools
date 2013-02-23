@@ -16,5 +16,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/scottgonzalez/node-git-tools.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "~0.1.1"
   }
 }
