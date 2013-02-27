@@ -129,7 +129,7 @@ Gets the name of the currently checked out branch, if any.
 
 
 
-### remotes ( callback )
+### remotes( callback )
 
 Gets all remote repositories.
 
