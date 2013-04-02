@@ -35,7 +35,7 @@ Repo.prototype.exec = function() {
 	child.stderr.on( "data", function( data ) {
 		stderr += data;
 	});
-	child.on( "exit", function( code ) {
+	child.on( "close", function( code ) {
 		var error;
 		if ( code ) {
 			error = new Error( stderr );
