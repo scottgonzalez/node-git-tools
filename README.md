@@ -129,6 +129,15 @@ Gets the name of the currently checked out branch, if any.
 
 
 
+### isRepo( callback )
+
+Determines if the specified path is a git repository.
+
+* `callback` (Function; `function( error, isRepo )`): Function to invoke after determining if the path is a git repository.
+  * `isRepo` (Boolean): Whether the path is a git repository.
+
+
+
 ### remotes( callback )
 
 Gets all remote repositories.

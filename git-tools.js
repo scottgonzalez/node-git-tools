@@ -210,6 +210,20 @@ Repo.prototype.currentBranch = function( callback ) {
 	});
 };
 
+Repo.prototype.isRepo = function( callback ) {
+	this.exec( "rev-parse", "--git-dir", function( error ) {
+		if ( error ) {
+			if ( error.message.indexOf( "Not a git repository" ) ) {
+				return callback( null, false );
+			}
+
+			return callback( error );
+		}
+
+		callback( null, true );
+	});
+};
+
 Repo.prototype.remotes = function( callback ) {
 	this.exec( "remote", "-v", function( error, data ) {
 		if ( error ) {
