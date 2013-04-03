@@ -31,6 +31,18 @@ repo.authors(function( error, authors ) {
 
 ## API
 
+### Repo.isRepo( path, callback )
+
+Determines if the specified path is a git repository.
+
+* `path` (String): The path to check.
+* `callback` (Function; `function( error, isRepo )`): Function to invoke after determining if the path is a git repository.
+  * `isRepo` (Boolean): Whether the path is a git repository.
+
+*Note: This is equivalent to creating a `Repo` instance with `path` and calling `isRepo()` on the instance.*
+
+
+
 ### activeDays( [committish], callback )
 
 Gets the number of active days (unique days of authorship). Includes activity

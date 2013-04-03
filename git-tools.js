@@ -23,12 +23,22 @@ Repo.parsePerson = (function() {
 	};
 })();
 
+Repo.isRepo = function( path, callback ) {
+	var repo = new Repo( path );
+	repo.isRepo( callback );
+};
+
 Repo.prototype.exec = function() {
 	var args = [].slice.call( arguments );
 	var callback = args.pop();
 	var stdout = "";
 	var stderr = "";
 	var child = spawn( "git", args, { cwd: this.path } );
+	var hadError = false;
+	child.on( "error", function( error ) {
+		hadError = true;
+		callback( error );
+	});
 	child.stdout.on( "data", function( data ) {
 		stdout += data;
 	});
@@ -36,6 +46,10 @@ Repo.prototype.exec = function() {
 		stderr += data;
 	});
 	child.on( "close", function( code ) {
+		if ( hadError ) {
+			return;
+		}
+
 		var error;
 		if ( code ) {
 			error = new Error( stderr );
@@ -214,6 +228,11 @@ Repo.prototype.isRepo = function( callback ) {
 	this.exec( "rev-parse", "--git-dir", function( error ) {
 		if ( error ) {
 			if ( error.message.indexOf( "Not a git repository" ) ) {
+				return callback( null, false );
+			}
+
+			// If the path doesn't exist, don't return an error
+			if ( error.code === "ENOENT" ) {
 				return callback( null, false );
 			}
 
