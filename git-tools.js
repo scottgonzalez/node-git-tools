@@ -8,6 +8,10 @@ function extend( a, b ) {
 	return a;
 }
 
+function copy( obj ) {
+	return extend( {}, obj );
+}
+
 function Repo( path ) {
 	this.path = path;
 }
@@ -22,6 +26,34 @@ Repo.parsePerson = (function() {
 		};
 	};
 })();
+
+Repo.clone = function( options, callback ) {
+	var dir = options.dir;
+	var args = [ "clone", options.repo, dir ];
+	options = copy( options );
+	delete options.repo;
+	delete options.dir;
+
+	Object.keys( options ).forEach(function( option ) {
+		args.push( "--" + option );
+
+		var value = options[ option ];
+		if ( value !== true ) {
+			args.push( value );
+		}
+	});
+
+	args.push(function( error ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		callback( null, new Repo( dir ) );
+	});
+
+	var repo = new Repo( process.cwd() );
+	repo.exec.apply( repo, args );
+};
 
 Repo.isRepo = function( path, callback ) {
 	var repo = new Repo( path );

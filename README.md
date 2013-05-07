@@ -31,6 +31,40 @@ repo.authors(function( error, authors ) {
 
 ## API
 
+### Repo.clone( options, callback )
+
+Clones a repository and returns the new `Repo` instance.
+
+* `options` (Object): Options for cloning the repository.
+  * `repo` (String): The repository to clone from.
+  * `path` (String): The path to clone into.
+  * extra: Additional options can be provided, as documented below.
+* `callback` (Function; `function( error, repo )`): Function to invoke after cloning the repository.
+  * `repo` (Object): A new `Repo` instance for the cloned repository.
+
+This function accepts arbitrary options to pass to `git clone`.
+For example, to create a bare repository:
+
+```js
+Repo.clone({
+	repo: "git://github.com/scottgonzalez/node-git-tools.git",
+	dir: "/tmp/git-tools",
+	bare: true
+});
+```
+
+Or to create a repo with limited history:
+
+```js
+Repo.clone({
+	repo: "git://github.com/scottgonzalez/node-git-tools.git",
+	dir: "/tmp/git-tools",
+	depth: 5
+});
+```
+
+
+
 ### Repo.isRepo( path, callback )
 
 Determines if the specified path is a git repository.
