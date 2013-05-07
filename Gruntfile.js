@@ -5,10 +5,18 @@ grunt.loadNpmTasks( "grunt-contrib-nodeunit" );
 
 grunt.initConfig({
 	jshint: {
-		options: {
-			jshintrc: ".jshintrc"
+		src: {
+			options: {
+				jshintrc: ".jshintrc"
+			},
+			src: [ "git-tools.js" ]
 		},
-		files: [ "git-tools.js" ]
+		test: {
+			options: {
+				jshintrc: ".jshintrc"
+			},
+			src: [ "test/**.js" ]
+		}
 	},
 	nodeunit: {
 		all: [ "test/**/*.js" ]
