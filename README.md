@@ -187,6 +187,16 @@ Each branch object contains the following properties:
 
 
 
+### config( name, callback )
+
+Gets the value of a configuration option.
+
+* `name` (String): The name of the configuration option.
+* `callback` (Function; `function( error, value )`): Function to invoke after getting the configuration option.
+  * `value` (String|null): The value for the configuration option, or `null` if no value is set.
+
+
+
 ### currentBranch( callback )
 
 Gets the name of the currently checked out branch, if any.

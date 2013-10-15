@@ -279,6 +279,20 @@ Repo.prototype.branches = function( callback ) {
 	});
 };
 
+Repo.prototype.config = function( name, callback ) {
+	this.exec( "config --get " + name, function( error, stdout ) {
+		if ( error ) {
+			if ( /^Command failed:\s+$/.test( error.message ) ) {
+				return callback( null, null );
+			}
+
+			return callback( error );
+		}
+
+		callback( null, stdout.trim() );
+	});
+};
+
 Repo.prototype.currentBranch = function( callback ) {
 	this.exec( "rev-parse", "--abbrev-ref", "HEAD", function( error, data ) {
 		if ( error ) {
