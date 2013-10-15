@@ -149,6 +149,25 @@ Each author object contains the following properties:
 
 
 
+### blame( options, callback )
+
+Determine what revision and author last modified each line of a file.
+
+* `options` (Object): Options for the blame.
+  * `path` (String): The path to the file to run the blame for.
+  * `committish` (String; default: `"HEAD"`): Revision or range to blame against.
+* `callback` (Function; `function( error, blame )`): Function to invoke after blaming the file.
+  * `blame` (Array): Commit information for each line.
+
+Each blame item contains the following properties:
+
+* `commit`: SHA of commit that most recently modified the line.
+* `path`: Path to the file at the time of the most recent modification to the line.
+* `lineNumber`: Line number within the file.
+* `content`: Contents of the line.
+
+
+
 ### branches( callback )
 
 Gets all branches in order of most recent commit.

@@ -208,6 +208,40 @@ Repo.prototype.authors = function( committish, callback ) {
 	});
 };
 
+Repo.prototype.blame = function( options, callback ) {
+	var args = [ "blame", "-s" ];
+
+	if ( options.committish ) {
+		args.push( options.committish );
+	}
+
+	args.push( "--", options.path );
+
+	var rBlame = /^(\w+)\s(\S+)\s+(\d+)\)\s(.*)$/;
+
+	args.push(function( error, blame ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		var lines = blame.split( "\n" );
+		lines = lines.map(function( line ) {
+			var matches = rBlame.exec( line );
+
+			return {
+				commit: matches[ 1 ],
+				path: matches[ 2 ],
+				lineNumber: parseInt( matches[ 3 ], 10 ),
+				content: matches[ 4 ]
+			};
+		});
+
+		callback( null, lines );
+	});
+
+	this.exec.apply( this, args );
+};
+
 Repo.prototype.branches = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +
