@@ -224,7 +224,7 @@ Repo.prototype.blame = function( options, callback ) {
 			return callback( error );
 		}
 
-		var lines = blame.split( "\n" );
+		var lines = blame.split( /\r?\n/ );
 		lines = lines.map(function( line ) {
 			var matches = rBlame.exec( line );
 
