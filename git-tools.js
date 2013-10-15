@@ -217,7 +217,7 @@ Repo.prototype.blame = function( options, callback ) {
 
 	args.push( "--", options.path );
 
-	var rBlame = /^(\w+)\s(\S+)\s+(\d+)\)\s(.*)$/;
+	var rBlame = /^(\w+)(\s(\S+))?\s+(\d+)\)\s(.*)$/;
 
 	args.push(function( error, blame ) {
 		if ( error ) {
@@ -230,9 +230,9 @@ Repo.prototype.blame = function( options, callback ) {
 
 			return {
 				commit: matches[ 1 ],
-				path: matches[ 2 ],
-				lineNumber: parseInt( matches[ 3 ], 10 ),
-				content: matches[ 4 ]
+				path: matches[ 3 ] || options.path,
+				lineNumber: parseInt( matches[ 4 ], 10 ),
+				content: matches[ 5 ]
 			};
 		});
 
