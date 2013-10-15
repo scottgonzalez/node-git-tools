@@ -1,6 +1,6 @@
 {
   "name": "git-tools",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tools for parsing data out of git repositories.",
   "keywords": [
     "git"
