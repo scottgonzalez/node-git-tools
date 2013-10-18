@@ -229,6 +229,16 @@ Each remote object contains the following properties:
 
 
 
+### resolveCommittish( committish, callback )
+
+Resolves a committish to a SHA1.
+
+* `committish` (String): Any committish to resolve.
+* `callback` (Function; `function( error, sha )`): Function to invoke after resolving the comittish.
+  * `sha`: SHA1 of the resolved committish.
+
+
+
 ### tags( callback )
 
 Gets all tags in reverse chronological order.

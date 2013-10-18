@@ -358,6 +358,10 @@ Repo.prototype.remotes = function( callback ) {
 	});
 };
 
+Repo.prototype.resolveCommittish = function( committish, callback ) {
+	this.exec( "rev-parse", committish, callback );
+};
+
 Repo.prototype.tags = function( callback ) {
 	this.exec( "for-each-ref",
 		"--format=" +
