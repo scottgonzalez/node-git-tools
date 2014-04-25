@@ -217,7 +217,7 @@ Repo.prototype.blame = function( options, callback ) {
 
 	args.push( "--", options.path );
 
-	var rBlame = /^(\w+)(\s(\S+))?\s+(\d+)\)\s(.*)$/;
+	var rBlame = /^\^*(\w+)(\s(\S+))?\s+(\d+)\)\s(.*)$/;
 
 	args.push(function( error, blame ) {
 		if ( error ) {
