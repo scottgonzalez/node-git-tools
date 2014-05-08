@@ -162,6 +162,7 @@ Determine what revision and author last modified each line of a file.
 Each blame item contains the following properties:
 
 * `commit`: SHA of commit that most recently modified the line.
+* `boundary`: Boolean indicating whether the commit is a boundary for the range.
 * `path`: Path to the file at the time of the most recent modification to the line.
 * `lineNumber`: Line number within the file.
 * `content`: Contents of the line.

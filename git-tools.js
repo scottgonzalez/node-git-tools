@@ -217,7 +217,7 @@ Repo.prototype.blame = function( options, callback ) {
 
 	args.push( "--", options.path );
 
-	var rBlame = /^(\w+)(\s(\S+))?\s+(\d+)\)\s(.*)$/;
+	var rBlame = /^(\^?\w+)(\s(\S+))?\s+(\d+)\)\s(.*)$/;
 
 	args.push(function( error, blame ) {
 		if ( error ) {
@@ -227,9 +227,16 @@ Repo.prototype.blame = function( options, callback ) {
 		var lines = blame.split( /\r?\n/ );
 		lines = lines.map(function( line ) {
 			var matches = rBlame.exec( line );
+			var commit = matches[ 1 ];
+			var boundary = /^\^/.test( commit );
+
+			if ( boundary ) {
+				commit = commit.substring( 1 );
+			}
 
 			return {
 				commit: matches[ 1 ],
+				boundary: boundary,
 				path: matches[ 3 ] || options.path,
 				lineNumber: parseInt( matches[ 4 ], 10 ),
 				content: matches[ 5 ]
