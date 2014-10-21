@@ -400,4 +400,33 @@ Repo.prototype.tags = function( callback ) {
 	});
 };
 
+git.prototype.createBranch = function(branchName, callback) {
+
+    var self = this;
+    this.branches(function(error,branches){
+
+        if (error) {
+            return callback(error);
+        }
+
+        for ( var i in branches ) {
+            if ( branches[i] === branchName ) {
+                return callback("Cannot create branch "+branchName+" as it already exists");
+            }
+        }
+
+        self.exec("checkout","-b",branchName,function(error,uncommitedChanges){
+
+            if ( error ) {
+                return callback(error);
+            }
+
+            callback(null, uncommitedChanges);
+
+        });
+
+    });
+
+};
+
 module.exports = Repo;
