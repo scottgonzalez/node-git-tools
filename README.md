@@ -256,6 +256,15 @@ Each tag object contains the following properties:
 * `date` (Date): Author date for ligthweight tags, tagger date for annotated tags.
 
 
+### createBranch( branchName, callback )
+
+Create and checkout a new branch.
+
+This will fail if a branch with `branchName` already exists.
+
+* `callback` (Function; `function( error, uncommittedChanges )`): Function to invoke after checking out the new branch.
+  * `uncommittedChanges` (String): Git log of uncommitted changes
+
 
 ## License
 
