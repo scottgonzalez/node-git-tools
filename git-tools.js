@@ -266,7 +266,7 @@ Repo.prototype.branches = function( callback ) {
 };
 
 Repo.prototype.config = function( name, callback ) {
-	this.exec( "config --get " + name, function( error, stdout ) {
+	this.exec( "config", "--get", name, function( error, stdout ) {
 		if ( error ) {
 			if ( /^Command failed:\s+$/.test( error.message ) ) {
 				return callback( null, null );
