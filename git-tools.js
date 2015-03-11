@@ -360,6 +360,10 @@ Repo.prototype.tags = function( callback ) {
 			return callback( error );
 		}
 
+		if ( !data ) {
+			return callback( null, [] );
+		}
+
 		var tags = data.split( "\n\n" ).map(function( tag ) {
 			var lines = tag.split( "\n" );
 			var name = lines[ 0 ];
