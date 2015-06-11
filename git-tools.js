@@ -187,6 +187,44 @@ Repo.prototype.authors = function( committish, callback ) {
 	});
 };
 
+Repo.prototype.describe = function( options, callback ) {
+	if ( !callback ) {
+		callback = options;
+		options = { };
+	}
+
+	var args = [ "describe" ];
+	if( options.all ) {
+		args.push( "--all" );
+	}
+	if( options.tags ) {
+		args.push( "--tags" );
+	}
+	if( options.contains ) {
+		args.push( "--contains" );
+	}
+	if( options.debug ) {
+		args.push( "--debug" );
+	}
+	if( options.long ) {
+		args.push( "--long" );
+	}
+	if( options.always ) {
+		args.push( "--always" );
+	}
+	if( options.first_parent ) {
+		args.push( "--first-parent" );
+	}
+	args.push( function( error, data ) {
+		if ( error ) {
+			return callback( error );
+		}
+
+		callback( null, data );
+	});
+	this.exec.apply( this, args );
+};
+
 Repo.prototype.blame = function( options, callback ) {
 	var args = [ "blame", "-s" ];
 
