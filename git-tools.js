@@ -294,6 +294,40 @@ Repo.prototype.currentBranch = function( callback ) {
 	});
 };
 
+Repo.prototype.describe = function( options, callback ) {
+	if ( !callback ) {
+		callback = options;
+		options = {};
+	}
+
+	var args = [ "describe" ];
+	if ( options.committish ) {
+		args.push( options.committish );
+		delete options.committish;
+	}
+	Object.keys( options ).forEach(function( option ) {
+		var arg = "--" + option.replace( /[A-Z]/g, function( c ) {
+			return "-" + c.toLowerCase();
+		});
+
+		if ( option === "abbrev" || option === "cadidates" ) {
+			arg += "=" + options[ option ];
+			args.push( arg );
+			return;
+		}
+
+		args.push( arg );
+
+		var value = options[ option ];
+		if ( value !== true ) {
+			args.push( value );
+		}
+	});
+	args.push( callback );
+
+	this.exec.apply( this, args );
+};
+
 Repo.prototype.isRepo = function( callback ) {
 	this.exec( "rev-parse", "--git-dir", function( error ) {
 		if ( error ) {

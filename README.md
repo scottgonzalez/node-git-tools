@@ -207,6 +207,29 @@ Gets the name of the currently checked out branch, if any.
 
 
 
+### describe( [options], callback )
+
+Describes a committish.
+
+* `options` (Object): Options for describing the committish.
+  * `committish` (String): The committish to describe. Defaults to currently checked-out commit.
+  * extra: Additional options can be provided, as documented below.
+* `callback` (Function; `function( error, description )`): Function to invoke after getting the description.
+  * `description` (String): Description of the committish.
+
+This function accepts arbitrary options to pass to `git describe`.
+For example, to get the long description:
+
+```js
+Repo.describe({
+	long: true
+}, function( err, description ) {
+	console.log( description );
+});
+```
+
+
+
 ### isRepo( callback )
 
 Determines if the specified path is a git repository.

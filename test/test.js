@@ -14,7 +14,13 @@ function createRepo( callback ) {
 
 		testRepo.exec( "commit", "--allow-empty",
 			"--author=John Doe <john.doe@example.com>", "-m first commit",
-			callback );
+			function( error ) {
+				if ( error ) {
+					throw error;
+				}
+
+				testRepo.exec( "tag", "-a", "v0.1", "-m", "tag", callback );
+			});
 	});
 }
 
@@ -36,6 +42,40 @@ exports.authors = {
 						commitsPercent: 100
 					}
 				], "one author" );
+				test.done();
+			});
+		});
+	}
+};
+
+exports.describe = {
+	"default description": function( test ) {
+		createRepo(function( error ) {
+			if ( error ) {
+				throw error;
+			}
+
+			testRepo.describe(function( error, description ) {
+				test.ifError( error );
+
+				test.equal( description, "v0.1", "a tag");
+				test.done();
+			});
+		});
+	},
+
+	"long description": function( test ) {
+		createRepo(function( error ) {
+			if ( error ) {
+				throw error;
+			}
+
+			testRepo.describe( {
+				long: true
+			}, function( error, description ) {
+				test.ifError( error );
+
+				test.ok( /v0\.1-0-g.{7}/.test( description ), "a long tag");
 				test.done();
 			});
 		});
