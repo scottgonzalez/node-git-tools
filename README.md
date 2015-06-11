@@ -257,6 +257,25 @@ Each tag object contains the following properties:
 
 
 
+### describe( callback )
+
+Describes the currently checked out commit.
+
+Accepts most of the arguments that `git describe` accepts
+
+* `options` (Object): Options for `git describe` command
+  * `all` (Bool): adds '--all' if true.
+  * `tags` (Bool): adds '--tags' if true.
+  * `contains` (Bool): adds '--contains' if true.
+  * `debug` (Bool): adds '--debug' if true.
+  * `long` (Bool): adds '--long' if true.
+  * `always` (Bool): adds '--always' if true.
+  * `first_parent` (Bool): adds '--first-parent' if true.
+* `callback` (Function; `function( error, description )`): Function to invoke after getting the description.
+  * `description` (String): Description string.
+
+
+
 ## License
 
 Copyright 2013 Scott González. Released under the terms of the MIT license.
