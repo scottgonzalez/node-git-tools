@@ -257,7 +257,7 @@ Each tag object contains the following properties:
 
 
 
-### describe( callback )
+### describe( [options], callback )
 
 Describes the currently checked out commit.
 
