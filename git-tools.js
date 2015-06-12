@@ -194,34 +194,27 @@ Repo.prototype.describe = function( options, callback ) {
 	}
 
 	var args = [ "describe" ];
-	if( options.all ) {
-		args.push( "--all" );
+	if ( options.committish ) {
+		args.push( options.committish );
+		delete options.committish;
 	}
-	if( options.tags ) {
-		args.push( "--tags" );
-	}
-	if( options.contains ) {
-		args.push( "--contains" );
-	}
-	if( options.debug ) {
-		args.push( "--debug" );
-	}
-	if( options.long ) {
-		args.push( "--long" );
-	}
-	if( options.always ) {
-		args.push( "--always" );
-	}
-	if( options.first_parent ) {
-		args.push( "--first-parent" );
-	}
-	args.push( function( error, data ) {
-		if ( error ) {
-			return callback( error );
-		}
+	Object.keys( options ).forEach(function( option ) {
+		var arg = "--" + option.replace( /[A-Z]/g, function( c ) { return "-" + c.toLowerCase(); } );
 
-		callback( null, data );
+		if(option === "abbrev" || option === "cadidates" ) {
+			arg += "=" + options[ option ];
+			args.push( arg );
+			return;
+		} 
+		args.push( arg );
+
+		var value = options[ option ];
+		if ( value !== true ) {
+			args.push( value );
+		}
 	});
+	args.push( callback );
+
 	this.exec.apply( this, args );
 };
 

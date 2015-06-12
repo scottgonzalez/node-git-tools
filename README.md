@@ -259,20 +259,28 @@ Each tag object contains the following properties:
 
 ### describe( [options], callback )
 
-Describes the currently checked out commit.
-
-Accepts most of the arguments that `git describe` accepts
+Describes a committish.
 
 * `options` (Object): Options for `git describe` command
-  * `all` (Bool): adds '--all' if true.
-  * `tags` (Bool): adds '--tags' if true.
-  * `contains` (Bool): adds '--contains' if true.
-  * `debug` (Bool): adds '--debug' if true.
-  * `long` (Bool): adds '--long' if true.
-  * `always` (Bool): adds '--always' if true.
-  * `first_parent` (Bool): adds '--first-parent' if true.
+  * `committish` (String): The committish to describe. Defaults to currently checked-out commit.
+  * extra: Additional options can be provided, as documented below.
 * `callback` (Function; `function( error, description )`): Function to invoke after getting the description.
   * `description` (String): Description string.
+
+This function accepts arbitrary options to pass to `git describe`.
+For example, to get the long description:
+
+```js
+Repo.describe({
+	long: true
+}, function( err, description ) {
+    if( err ) {
+	console.log( err );
+    } else {
+	console.log( description );
+    }
+});
+```
 
 
 
