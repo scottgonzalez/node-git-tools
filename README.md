@@ -274,11 +274,7 @@ For example, to get the long description:
 Repo.describe({
 	long: true
 }, function( err, description ) {
-    if( err ) {
-	console.log( err );
-    } else {
-	console.log( description );
-    }
+    console.log( description );
 });
 ```
 
