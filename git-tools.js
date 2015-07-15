@@ -68,7 +68,10 @@ Repo.prototype.exec = function() {
 			return callback( error );
 		}
 
-		callback( null, stdout.trimRight() );
+		// Remove trailing newline
+		stdout = stdout.replace( /\n$/, "" );
+
+		callback( null, stdout );
 	});
 };
 
