@@ -20,9 +20,10 @@ Repo.parsePerson = (function() {
 	var rPerson = /^(\S+)\s(.+)$/;
 	return function( person ) {
 		var matches = rPerson.exec( person );
+		
 		return {
-			email: matches[ 1 ],
-			name: matches[ 2 ]
+			email: matches ? matches[ 1 ] : '',
+			name: matches ? matches[ 2 ] : ''
 		};
 	};
 })();
