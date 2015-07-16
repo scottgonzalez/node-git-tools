@@ -163,7 +163,8 @@ Repo.prototype.authors = function( committish, callback ) {
 			return callback( error );
 		}
 
-		var authors = data.split( "\n" );
+		// Logs on a boundary commit will have no output
+		var authors = data.length ? data.split( "\n" ) : [];
 		var authorMap = {};
 		var totalCommits = 0;
 
