@@ -12,6 +12,7 @@
     "email": "scott.gonzalez@gmail.com",
     "url": "http://scottgonzalez.com"
   },
+  "license": "MIT",
   "main": "git-tools.js",
   "repository": {
     "type": "git",
