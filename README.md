@@ -257,6 +257,29 @@ Each tag object contains the following properties:
 
 
 
+### describe( [options], callback )
+
+Describes a committish.
+
+* `options` (Object): Options for `git describe` command
+  * `committish` (String): The committish to describe. Defaults to currently checked-out commit.
+  * extra: Additional options can be provided, as documented below.
+* `callback` (Function; `function( error, description )`): Function to invoke after getting the description.
+  * `description` (String): Description string.
+
+This function accepts arbitrary options to pass to `git describe`.
+For example, to get the long description:
+
+```js
+Repo.describe({
+	long: true
+}, function( err, description ) {
+    console.log( description );
+});
+```
+
+
+
 ## License
 
 Copyright 2013 Scott González. Released under the terms of the MIT license.
