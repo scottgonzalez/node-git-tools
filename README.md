@@ -282,8 +282,4 @@ Each tag object contains the following properties:
 
 ## License
 
-Copyright 2013 Scott González. Released under the terms of the MIT license.
-
----
-
-Support this project by [donating on Gittip](https://www.gittip.com/scottgonzalez/).
+Copyright Scott González and other contributors. Released under the terms of the MIT license.
