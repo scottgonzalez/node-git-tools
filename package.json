@@ -15,7 +15,9 @@
   "license": "MIT",
   "main": "git-tools.js",
   "scripts": {
-    "test": "nodeunit test/**"
+    "lint": "standard",
+    "nodeunit": "nodeunit test/**",
+    "test": "npm run lint && npm run nodeunit"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "nodeunit": "^0.11.2",
-    "rimraf": "~2.1.4"
+    "rimraf": "~2.1.4",
+    "standard": "^10.0.3"
   }
 }
